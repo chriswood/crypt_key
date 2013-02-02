@@ -13,11 +13,9 @@ def main(request):
 
     if request.method == 'POST':
         values = request.POST
-        enc_data = values['enc_data']
-        enc_data = decrypt(enc_data)
+        #This is the bare encrypted string
+        enc_data = decrypt(values['enc_data'])
         context_dict['debug'] = "debug: %s" % enc_data
-    else:
-        context_dict['rtype'] = 'NOT POST'
 
     context_dict['title'] = 'decrypting'
     return render_to_response('main.html',
