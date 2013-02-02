@@ -25,8 +25,12 @@
 	</div>
 	<div id="splash-wrapper">
 		<div id="splash">
-			<h2>Nullam pretium nibh ut turpis</h2>
-			<p>form</p>
+			<h2>{{ rtype }}</h2>
+			<p><form action="/decrypt/" method="post" id='encryted-data'>
+				<textarea cols="40" rows="5" name="text" id="ta_data">paste encrypted text here.
+				</textarea>
+                <input type="submit" value="Decipher" />
+            </form></p>
 		</div>
 	</div>
 	<!-- end #header -->
