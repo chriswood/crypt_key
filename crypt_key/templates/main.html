@@ -27,8 +27,7 @@
 		<div id="splash">
 			<h2>{{ rtype }}</h2>
 			<p><form action="/decrypt/" method="post" id='encryted-data'>
-				<textarea cols="40" rows="5" name="text" id="ta_data">paste encrypted text here.
-				</textarea>
+				<textarea cols="40" rows="5" name="enc_data" id="enc_data">{{ debug }}</textarea>
                 <input type="submit" value="Decipher" />
             </form></p>
 		</div>
