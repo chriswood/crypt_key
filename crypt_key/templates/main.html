@@ -29,11 +29,14 @@
 			<p><form action="/decrypt/" method="post" id='encryted-data'>
 				<textarea cols="40" rows="5" name="enc_data" id="enc_data">{{ debug }}</textarea>
                 <input type="submit" value="Decipher" />
-            </form></p>
+            </form>
+            
+            <div id="info" >The complete letter frequencies add up to {{ total }}.</div>
+            </p>
 		</div>
 	</div>
 	<!-- end #header -->
-
+    
 	<div id="footer">
 		<div class="content">
 			<p>Copyright (c) 2013 ChrisWood Productions. All rights reserved.</p>

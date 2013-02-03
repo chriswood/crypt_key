@@ -87,6 +87,11 @@ a:hover {
 	color: #CE9B87;
 }
 
+#info {
+	position:relative;
+    top:50px;
+}
+
 /* Splash */
 /*put this in for background image on right...
 background: url(images/img02a.jpg) no-repeat center top;*/
