@@ -18,8 +18,9 @@ def main(request):
         #This is the bare encrypted string
         crypt = CryptKeeper(values['enc_data'])
 
-        context_dict['debug'] = "hey"
-        context_dict['total'] = crypt.check_frequencies()
+        context_dict['debug'] = crypt()
+        context_dict['total'] = crypt.check_frequencies(show=True)
+
     context_dict['title'] = 'decrypting'
 
     return render_to_response('main.html',

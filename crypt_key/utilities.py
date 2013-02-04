@@ -5,6 +5,13 @@ class CryptKeeper:
     def __init__(self, enc_string):
         self.enc_string = enc_string
         self.freqs = self._get_freqs("letter_occurence")
+
+    def __call__(self):
+        return [m for m in self._name().__dict__ if m[:1] != '_']
+    
+    @classmethod
+    def _name(cls):
+        return cls
     
     def decrypt(self):
         '''
