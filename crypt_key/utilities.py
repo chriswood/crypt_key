@@ -1,4 +1,5 @@
-
+import collections
+from collections import defaultdict
 
 class CryptKeeper:
     """Define some common useful tools for decryption"""
@@ -21,14 +22,48 @@ class CryptKeeper:
     
         1) load dictionary of all letters and their frequency
             {'a':3, 'b':14, 'c': 16, 'z':26, ...}
-        2) determine count of letters in string..
+        
+        2) determine count of letters in string...
                 {'a':18, 'b':2, 'c':2, etc...}
         3) match these up, and make a new string with letters swapped
         4) print this and check
         5) Check first letters of word and compare against first letter frequency
         6) Try printing string again after this conversion
+
+        # next steps - refine this by adding new methods. Such as the ability
+          to decrypt each word, noting the frequency of the first and last letter,
+          double letters, etc...
         '''
-        return "solved-%s" % 'eightman'
+        # 1)
+        freqs = self.freqs
+
+        # 2)
+        string = self.enc_string.lower().replace(' ', '')
+        str_length = len(string)
+        used = self._build_letter_freq_dict()
+
+        # calculate what letters should be per enc_string count
+        # match actual letter as closely as possible, up or down rounded
+        return string
+
+    def _get_norm_freq(letter):
+	    return self.freqs[letter] * total
+
+    def _build_letter_freq_dict(self):
+        """
+        Return a dictionary of letters and frequencies used by encoded 
+        string.
+        """
+        #set up an empty dict with default values created by int()
+        container = defaultdict(int)
+        for letter in self.enc_string:
+            container[letter] += 1
+        return container
+    
+    def display_dict(self, name):
+        """Display a dictionary for debugging"""
+        for k, v in name:
+            print("%s - %s" %(k, v))
 
     def check_frequencies(self, show=False):
         """Check to make sure the frequencies included correctly sum to 1."""
