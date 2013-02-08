@@ -4,8 +4,10 @@ from collections import defaultdict
 class CryptKeeper:
     """Define some common useful tools for decryption"""
     def __init__(self, enc_string):
-        self.enc_string = enc_string
-        self.freqs = self._get_freqs("letter_occurence")
+        self.enc_string = enc_string.lower() #get rid of lower later
+        self.dec_string = ''
+        self.frequencies = self._get_frequencies()
+        self.norm_freqs = {}
 
     def __call__(self):
         return [m for m in self._name().__dict__ if m[:1] != '_']
@@ -34,22 +36,37 @@ class CryptKeeper:
           to decrypt each word, noting the frequency of the first and last letter,
           double letters, etc...
         '''
-        # 1)
-        freqs = self.freqs
-
         # 2)
         string = self.enc_string.lower().replace(' ', '')
-        str_length = len(string)
-        used = self._build_letter_freq_dict()
-
+        # get length of input
+        self.str_length = len(self.enc_string.lower().replace(' ', ''))
+        used_dict = self._build_letter_freq_dict(string)
+        normalized_freq_table = self._build_norm_freq_table()
+        print("nft dict")
+        print(normalized_freq_table)
+        self.convert_letters(used_dict)
+        # for letter in string:
+        # 	        self.dec_string = replace(self.letter, first=false)
         # calculate what letters should be per enc_string count
         # match actual letter as closely as possible, up or down rounded
         return string
+    
+    def convert_letters(self, letter):
+	    """
+	        Translate the letters according to the scheme.
+	        First indicates first letter of a word
+	    """
+	    #take letter
+	    #find letter in 
+	    pass
+	
+    def _build_norm_freq_table(self):
+	    d = {}
+	    for key in self.frequencies:
+		    d[key] = round((self.frequencies[key] * self.str_length), 7)
+	    return d
 
-    def _get_norm_freq(letter):
-	    return self.freqs[letter] * total
-
-    def _build_letter_freq_dict(self):
+    def _build_letter_freq_dict(self, string):
         """
         Return a dictionary of letters and frequencies used by encoded 
         string.
@@ -59,28 +76,20 @@ class CryptKeeper:
         for letter in self.enc_string:
             container[letter] += 1
         return container
-    
-    def display_dict(self, name):
-        """Display a dictionary for debugging"""
-        for k, v in name:
-            print("%s - %s" %(k, v))
 
     def check_frequencies(self, show=False):
         """Check to make sure the frequencies included correctly sum to 1."""
-        val = sum([letter.values()[0] for letter in self.freqs]) 
+        val = sum([self.frequencies[key] for key in self.frequencies])
         return val if show else round(val, 4) == float(1)
 
-    def _get_freqs(self, data_type):
+    def _get_frequencies(self):
         """Return the desired decryption data"""
-    
-        return {
-            'letter_occurence': [
-                {'a': 0.08167}, {'b': 0.01492}, {'c': 0.02782}, {'d': 0.04253}, 
-                {'e': 0.12702}, {'f': 0.02228}, {'g': 0.02015}, {'h': 0.06094}, 
-                {'i': 0.06966}, {'j': 0.00153}, {'k': 0.00772}, {'l': 0.04025}, 
-                {'m': 0.02406}, {'n': 0.06749}, {'o': 0.07507}, {'p': 0.01929}, 
-                {'q': 0.00095}, {'r': 0.05987}, {'s': 0.06327}, {'t': 0.09056}, 
-                {'u': 0.02758}, {'v': 0.00978}, {'w': 0.02360}, {'x': 0.00150}, 
-                {'y': 0.01974}, {'z': 0.00074}
-            ]
-        }[data_type]
+        return {                    
+            'a': 0.08167, 'b': 0.01492, 'c': 0.02782, 'd': 0.04253, 
+            'e': 0.12702, 'f': 0.02228, 'g': 0.02015, 'h': 0.06094, 
+            'i': 0.06966, 'j': 0.00153, 'k': 0.00772, 'l': 0.04025, 
+            'm': 0.02406, 'n': 0.06749, 'o': 0.07507, 'p': 0.01929, 
+            'q': 0.00095, 'r': 0.05987, 's': 0.06327, 't': 0.09056, 
+            'u': 0.02758, 'v': 0.00978, 'w': 0.02360, 'x': 0.00150, 
+            'y': 0.01974, 'z': 0.00074
+        }
