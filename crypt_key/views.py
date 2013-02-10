@@ -17,7 +17,6 @@ def main(request):
         #This is the bare encrypted string
         crypt = CryptKeeper(values['enc_data'])
 
-        context_dict['debug'] = crypt()
         context_dict['total'] = crypt.check_frequencies(show=True)
         context_dict['decrypted_str'] = crypt.decrypt()
 

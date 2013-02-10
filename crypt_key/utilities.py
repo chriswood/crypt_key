@@ -5,7 +5,7 @@ class CryptKeeper:
     """Define some common useful tools for decryption"""
     def __init__(self, enc_string):
         self.enc_string = enc_string.lower() #get rid of lower later
-        self.dec_string = ''
+        self.dec_string = self.enc_string #start with original
         self.frequencies = self._get_frequencies()
         self.norm_freqs = {}
 
@@ -40,31 +40,36 @@ class CryptKeeper:
         string = self.enc_string.lower().replace(' ', '')
         # get length of input
         self.str_length = len(self.enc_string.lower().replace(' ', ''))
-        used_dict = self._build_letter_freq_dict(string)
-        normalized_freq_table = self._build_norm_freq_table()
-        print("nft dict")
-        print(normalized_freq_table)
-        self.convert_letters(used_dict)
-        # for letter in string:
-        # 	        self.dec_string = replace(self.letter, first=false)
-        # calculate what letters should be per enc_string count
-        # match actual letter as closely as possible, up or down rounded
-        return string
+        used_table = self._build_letter_freq_dict(string)
+        normalized_freq_table = self._build_norm_freq_table()  
+        self.convert_letters(normalized_freq_table, used_table)
+
+        return(self.dec_string)
     
-    def convert_letters(self, letter):
-	    """
-	        Translate the letters according to the scheme.
-	        First indicates first letter of a word
-	    """
-	    #take letter
-	    #find letter in 
-	    pass
-	
+    def convert_letters(self, nft, ut):
+        """
+            Translate the letters according to the scheme.
+            nft = Normalized table of letter frequencies
+            ut = table of used letters in encrypted string
+        """
+
+        for key in ut: 
+            smallest_difference = 1000.0
+            value = ut[key]
+            probable_letter = '' 
+            for letter in nft:
+                new_difference = abs(value - nft[letter])
+                #print("new - %s, small - %s" %(new_difference, smallest_difference))
+                if new_difference < smallest_difference:
+                    smallest_difference = new_difference
+                    probable_letter = letter
+            self.dec_string = self.dec_string.replace(key, probable_letter)
+
     def _build_norm_freq_table(self):
-	    d = {}
-	    for key in self.frequencies:
-		    d[key] = round((self.frequencies[key] * self.str_length), 7)
-	    return d
+        d = {}
+        for key in self.frequencies:
+            d[key] = round((self.frequencies[key] * self.str_length), 7)
+        return d
 
     def _build_letter_freq_dict(self, string):
         """
@@ -74,7 +79,8 @@ class CryptKeeper:
         #set up an empty dict with default values created by int()
         container = defaultdict(int)
         for letter in self.enc_string:
-            container[letter] += 1
+            if letter.isalpha():
+                container[letter] += 1
         return container
 
     def check_frequencies(self, show=False):
